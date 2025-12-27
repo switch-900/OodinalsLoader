@@ -4,6 +4,8 @@
 
 This is a dead-simple, client-side tool that lets you build Bapps that can **create Bitcoin inscriptions directly from the browser**. Perfect for ordinal minting, on-chain content generators, creative tools, or any experience where users need to inscribe data to Bitcoin.
 
+**What is an "Oodinal"?** An Oodinal (Ordinal + Odinal) is an inscription that has **on-chain transaction creation capabilities**. The Oodinals Loader itself is inscribed on Bitcoin (sat 404079598183801) and can build and broadcast inscription transactions directly from within an inscription viewer. This means your inscribed apps can create new inscriptions without any backend server.
+
 ## Why Use This?
 
 - ✅ **No backend needed** — Everything runs client-side using on-chain Bitcoin Ordinals infrastructure
