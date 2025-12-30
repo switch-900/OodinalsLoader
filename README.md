@@ -46,6 +46,46 @@ This tool enables **on-chain experiences** where users can create inscriptions d
 
 All without a server. Your app + the Bitcoin blockchain = complete inscription platform.
 
+## How Nexus Works
+
+### Dynamic Loading from an Inscription
+
+Nexus itself is loaded from an inscription:
+
+```js
+const { default: Nexus } = await import('/r/sat/404079598183801/at/-1/content');
+```
+
+- This makes it part of the ordinals ecosystem, not an external dependency
+- It's imported dynamically and exposed as `window.Nexus`
+- Always available at the same sat location, versioned with `/at/-1/content`
+
+### Wallet Connection Flow
+
+```js
+await Nexus.connectWallet(walletId)  // Connect to specific wallet
+const state = Nexus.getWalletState() // Get connection info
+```
+
+- Nexus acts as a universal connector for multiple wallet providers (UniSat, Xverse, OKX, Leather, Phantom, Magic Eden, etc.)
+- Returns unified state: `paymentAddress`, `ordinalsAddress`, `publicKey`, `connected` status
+- Handles wallet-specific quirks and provides a consistent API
+
+### Finding Inscriptions in UTXOs
+
+```js
+const utxos = await Nexus.fetchSpendableUtxos(address)
+// Returns: { unsafe: [], spendable: [], unconfirmed: [] }
+```
+
+Users can filter UTXOs to control which outputs are used for fees:
+
+- **`spendable`** — UTXOs that appear safe to spend (filters out ordinals and runes)
+- **`unsafe`** — UTXOs that contain known inscriptions or other protected assets
+- **`unconfirmed`** — UTXOs from unconfirmed transactions
+
+**Important:** The `spendable` filter uses ordinals standard detection, but things outside the standard may not be identified. Many wallets have built-in features to protect non-standard assets. You can let users manually select UTXOs to exclude from the spendable fee pool as an additional safety option.
+
 ## What Each File Does
 
 ### [example.html](example.html) — The Minimum Viable Inscriber
